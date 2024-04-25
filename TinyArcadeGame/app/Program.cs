@@ -95,6 +95,7 @@ namespace geostorm.app
             Raylib.PlayMusicStream(music);
 
             Shader shader = Raylib.LoadShader(null, "shader.fs");
+            int timeLoc = Raylib.GetShaderLocation(shader, "time");
 
             RenderTexture2D target = Raylib.LoadRenderTexture(screenWidth, screenHeight);
             Raylib.SetMouseCursor(MouseCursor.MOUSE_CURSOR_CROSSHAIR);
@@ -118,6 +119,8 @@ namespace geostorm.app
                 Raylib.ClearBackground(new Color(0, 0, 30, 255));
 
                 UpdateInput(ref inputs);
+
+                Raylib.SetShaderValue(shader, timeLoc, (float)Raylib.GetTime(), ShaderUniformDataType.SHADER_UNIFORM_FLOAT);
 
                 if (!inputs.isGamePaused)
                 {

@@ -7,6 +7,7 @@ in vec4 fragColor;
 // Input uniform values
 uniform sampler2D texture0;
 uniform vec4 colDiffuse;
+uniform float time;
 
 // Output fragment color
 out vec4 finalColor;
@@ -35,7 +36,8 @@ void main(void)
     } 
     else 
     {
-        finalColor = baseColor;
+        float temp = sin((remappedUV.y * 20) * 3.14 + time * 10) / 20 + 0.05;
+
         vec4 sum = vec4(0);
 
         vec2 sizeFactor = vec2(1)/size*quality;
@@ -53,6 +55,6 @@ void main(void)
         }
 
         // Calculate final fragment color
-        finalColor = ((sum/(samples*samples)) + source)*colDiffuse;
+        finalColor = ((sum/(samples*samples)) + source)*colDiffuse + temp;
     }
 }
