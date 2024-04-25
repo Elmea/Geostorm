@@ -1,6 +1,6 @@
 #version 330
 
-// Input vertex attributes (from vertex shader)
+ // Input vertex attributes (from vertex shader)
 in vec2 fragTexCoord;
 in vec4 fragColor;
 
@@ -11,30 +11,48 @@ uniform vec4 colDiffuse;
 // Output fragment color
 out vec4 finalColor;
 
-// NOTE: Add here your custom variables
-
 const vec2 size = vec2(800, 450);   // Framebuffer size
 const float samples = 7.0;          // Pixels per axis; higher = bigger glow, worse performance
 const float quality = 4.5;          // Defines size factor: Lower = smaller glow, better quality
 
-void main()
+vec2 curveRemapUV(vec2 uv)
 {
-    vec4 sum = vec4(0);
-    vec2 sizeFactor = vec2(1)/size*quality;
+    uv = uv * 2.0 - 1.0;
 
-    // Texel color fetching from texture sampler
-    vec4 source = texture(texture0, fragTexCoord);
+    vec2 offset = abs(uv.yx) / vec2(3, 3);
+    uv = uv + uv * offset * offset;
+    uv = uv * 0.5 + 0.5;
+    return uv;
+}
 
-    const int range = 2;            // should be = (samples - 1)/2;
-
-    for (int x = -range; x <= range; x++)
+void main(void) 
+{
+    vec2 remappedUV = curveRemapUV(fragTexCoord);
+    vec4 baseColor = texture2D(texture0, remappedUV);    
+    if (remappedUV.x < 0.0 || remappedUV.y < 0.0 || remappedUV.x > 1.0 || remappedUV.y > 1.0)
     {
-        for (int y = -range; y <= range; y++)
-        {
-            sum += texture(texture0, fragTexCoord + vec2(x, y)*sizeFactor);
-        }
-    }
+        finalColor = vec4(0.0, 0.0, 0.0, 1.0);
+    } 
+    else 
+    {
+        finalColor = baseColor;
+        vec4 sum = vec4(0);
 
-    // Calculate final fragment color
-    finalColor = ((sum/(samples*samples)) + source)*colDiffuse;
+        vec2 sizeFactor = vec2(1)/size*quality;
+
+        vec4 source = texture(texture0, remappedUV);
+
+        const int range = 2;
+
+        for (int x = -range; x <= range; x++)
+        {
+            for (int y = -range; y <= range; y++)
+            {
+                sum += texture(texture0, remappedUV + vec2(x, y)*sizeFactor);
+            }
+        }
+
+        // Calculate final fragment color
+        finalColor = ((sum/(samples*samples)) + source)*colDiffuse;
+    }
 }

@@ -115,7 +115,7 @@ namespace geostorm.app
                 // Draw
                 //----------------------------------------------------------------------------------
                 Raylib.BeginTextureMode(target);
-                Raylib.ClearBackground(Color.BLACK);
+                Raylib.ClearBackground(new Color(0, 0, 30, 255));
 
                 UpdateInput(ref inputs);
 
