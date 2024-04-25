@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "geostorm": {
+    "TinyArcadeGame": {
       "commandName": "Project",
       "workingDirectory": "$(ProjectDir)"
     }
