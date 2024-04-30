@@ -54,7 +54,7 @@ namespace geostorm.core
                         if (enemyKilled.frameCount == 0)
                         {
                             for (int i = 0; i < 64; i++)
-                                particles.Add(new Particle(enemyKilled.enemy.position, i * MathF.PI / 32, random.Next(1, 9) / 2.5f, random.Next(0, 3), random.Next(5, 8), colorToDisp));
+                                particles.Add(new Particle(enemyKilled.enemy.position, i * MathF.PI / 32, (float)random.Next(1, 8) / 2f, (float)(random.Next(0, 50)) / 25f, random.Next(5, 8), colorToDisp));
                         }
                         break;
 
@@ -63,7 +63,7 @@ namespace geostorm.core
                         Vector4 colorTodisp = enemyDie.enemy.GetColor();
                         colorTodisp.W = ParticleOpacity;
                         for (int i = 0; i < 64; i++)
-                            particles.Add(new Particle(enemyDie.enemy.position, i * MathF.PI / 32, random.Next(1, 9) / 2.5f, random.Next(0, 3), random.Next(5, 8), colorTodisp));
+                            particles.Add(new Particle(enemyDie.enemy.position, i * MathF.PI / 32, (float)random.Next(1, 8) / 2f, (float)(random.Next(0, 50)) / 25f, random.Next(5, 8), colorTodisp));
                         enemyDie.canBeDeleted = true;
                         break;
 
@@ -71,7 +71,7 @@ namespace geostorm.core
                         Events.BulletHit bulletHitWall = curEvent as Events.BulletHit;
 
                         for (int i = 0; i < 64; i++)
-                            particles.Add(new Particle(bulletHitWall.bullet.position, i * MathF.PI / 32, random.Next(1, 3), random.Next(0, 2), random.Next(3, 8), new Vector4(1, 1, 0, ParticleOpacity)));
+                            particles.Add(new Particle(bulletHitWall.bullet.position, i * MathF.PI / 32, (float)random.Next(1, 4) / 2f, (float)(random.Next(0, 50)) / 25f, random.Next(3, 8), new Vector4(1, 1, 0, ParticleOpacity)));
 
                         bulletHitWall.canBeDeleted = true;
                         break;
@@ -81,14 +81,14 @@ namespace geostorm.core
 
                         if (useBomb.frameCount < 1) 
                             for (int i = 0; i < 256; i++)
-                                particles.Add(new Particle(useBomb.position, i * MathF.PI / 64, random.Next(1, 8), random.Next(0, 2), random.Next(5, 8), new Vector4(212f/255f, 151f/255f, 19f/255f, ParticleOpacity)));
+                                particles.Add(new Particle(useBomb.position, i * MathF.PI / 32, (float)random.Next(1, 16) / 2f, (float)(random.Next(0, 50)) / 25f, random.Next(5, 8), new Vector4(212f/255f, 151f/255f, 19f/255f, ParticleOpacity)));
                         break;
 
                     case Events.PlayerDie:
                         Events.PlayerDie playerDie = curEvent as Events.PlayerDie;
 
-                        for (int i = 0; i < 128; i++)
-                            particles.Add(new Particle(playerDie.position, i * MathF.PI / 32, random.Next(1, 8), random.Next(0, 2), random.Next(5, 8), playerDie.color));
+                        for (int i = 0; i < 256; i++)
+                            particles.Add(new Particle(playerDie.position, i * MathF.PI / 64, (float)random.Next(1, 16) / 2f, (float)(random.Next(0, 100)) / 25f, random.Next(5, 8), playerDie.color));
                         playerDie.canBeDeleted = true;
                         break;
 
@@ -97,7 +97,7 @@ namespace geostorm.core
 
                         if (blackHoleExplode.frameCount == 0)
                             for (int i = 0; i < 128; i++)
-                                particles.Add(new Particle(blackHoleExplode.blackHole.position, i * MathF.PI / 32, random.Next(1, 8), random.Next(0, 2), random.Next(5, 8), new Vector4(203f/255f, 33f/255f, 255f/255f, ParticleOpacity)));
+                                particles.Add(new Particle(blackHoleExplode.blackHole.position, i * MathF.PI / 32, (float)random.Next(1, 16) / 2f, (float)(random.Next(0, 50)) / 25f, random.Next(5, 8), new Vector4(203f/255f, 33f/255f, 255f/255f, ParticleOpacity)));
                         break;
                 }
             }
